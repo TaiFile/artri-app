@@ -8,6 +8,7 @@ abstract class ExerciseOptionsRoutes implements RoutesSession {
   static const String _base = '/exercise';
   static const physicalExercise = '$_base/physical_exercise';
   static const relaxation = '$_base/relaxation';
+  static const infoAtividadeFisica = '$_base/info-atividade-fisica';
 
   static List<RouteBase> getGoRoutes() => [
         GoRoute(
@@ -24,6 +25,11 @@ abstract class ExerciseOptionsRoutes implements RoutesSession {
           parentNavigatorKey: RouterKeys.appRoutesKey,
           builder: (context, state) => const RelaxationPage(),
           routes: RelaxationRoutes.getGoRoutes(),
+        ),
+        GoRoute(
+          path: 'info-atividade-fisica',
+          parentNavigatorKey: RouterKeys.appRoutesKey,
+          builder: (context, state) => const AtividadeFisicaInfoPage(),
         ),
       ];
 }

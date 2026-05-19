@@ -1,52 +1,66 @@
 import 'package:artriapp/models/route_session.dart';
-import 'package:artriapp/views/info/emocional.dart';
-import 'package:artriapp/views/info/exercicio_fisico.dart';
-import 'package:artriapp/views/info/mitos_verdades.dart';
+import 'package:artriapp/routes/index.dart';
+import 'package:artriapp/utils/router_keys.dart';
 import 'package:go_router/go_router.dart';
-import 'package:artriapp/views/info/artrite_reumatoide.dart';
-import 'package:artriapp/views/info/tratamentos.dart';
-import 'package:artriapp/views/info/minha_dor.dart';
-import 'package:artriapp/views/info/sono.dart';
-import 'package:artriapp/views/info/alimentacao.dart';
-import 'package:artriapp/views/info/leis_direitos.dart';
+import 'package:artriapp/views/info/index.dart';
 
 class InfoRoutes implements RoutesSession {
+  static final String _base = BottomNavRoutes.info;
+  static String artriteInfoPage = '$_base/artrite';
+  static String treatmentsInfoPage = '$_base/treatments';
+  static String myPainInfoPage = '$_base/my-pain';
+  static String sleepInfoPage = '$_base/sleep';
+  static String foodRoutineInfoPage = '$_base/food-routine';
+  static String lawsInfoPage = '$_base/laws';
+  static String emotionalPage = '$_base/emotional';
+  static String exercisesInfoPage = '$_base/exercises';
+  static String mythsTruthsInfoPage = '$_base/myths-truths';
+
   static List<RouteBase> getGoRoutes() {
     return [
       GoRoute(
+        parentNavigatorKey: RouterKeys.appRoutesKey,
         path: 'artrite',
         builder: (context, state) => const ArtriteInfoPage(),
       ),
       GoRoute(
-        path: 'tratamentos',
+        parentNavigatorKey: RouterKeys.appRoutesKey,
+        path: 'treatments',
         builder: (context, state) => const TratamentosInfoPage(),
       ),
       GoRoute(
-        path: 'minha-dor',
+        parentNavigatorKey: RouterKeys.appRoutesKey,
+        path: 'my-pain',
         builder: (context, state) => const MinhaDorInfoPage(),
       ),
       GoRoute(
-        path: 'sono',
+        parentNavigatorKey: RouterKeys.appRoutesKey,
+        path: 'sleep',
         builder: (context, state) => const SonoInfoPage(),
       ),
       GoRoute(
-        path: 'alimentacao',
+        parentNavigatorKey: RouterKeys.appRoutesKey,
+        path: 'food-routine',
         builder: (context, state) => const AlimentacaoInfoPage(),
       ),
       GoRoute(
-        path: 'emocional',
+        parentNavigatorKey: RouterKeys.appRoutesKey,
+        path: 'emotional',
         builder: (context, state) => const EmocionalInfoPage(),
       ),
       GoRoute(
-        path: 'exercicio',
+        parentNavigatorKey: RouterKeys.appRoutesKey,
+        path: 'exercises',
         builder: (context, state) => const ExercicioInfoPage(),
       ),
       GoRoute(
-        path: 'leis',
+        parentNavigatorKey: RouterKeys.appRoutesKey,
+        path: 'laws',
         builder: (context, state) => const LeisDireitosInfoPage(),
       ),
       GoRoute(
-        path: 'mitos-verdades',
+        parentNavigatorKey: RouterKeys.appRoutesKey,
+        path: 'myths-truths',
         builder: (context, state) => const MitosVerdadesInfoPage(),
       ),
     ];

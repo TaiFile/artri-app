@@ -12,7 +12,6 @@ class PhysicalExerciseRoutes implements RoutesSession {
   static String feetExercises = '$_base/feet';
   static String customExercises = '$_base/custom';
   static String congratulations = '$_base/congratulations';
-  static String infoAtividadeFisica = '$_base/info-atividade-fisica';
 
   static List<RouteBase> getGoRoutes() => [
         GoRoute(
@@ -104,10 +103,6 @@ class PhysicalExerciseRoutes implements RoutesSession {
               ],
             ),
           ],
-        ),
-        GoRoute(
-          path: 'info-atividade-fisica',
-          builder: (context, state) => const AtividadeFisicaInfoPage(),
         ),
       ];
 }
