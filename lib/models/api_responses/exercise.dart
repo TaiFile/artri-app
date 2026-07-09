@@ -1,4 +1,5 @@
 import 'package:artriapp/models/api_responses/index.dart';
+import 'package:artriapp/utils/enums/exercise_category.dart';
 import 'package:artriapp/utils/enums/exercise_difficulty.dart';
 
 class Exercise {
@@ -8,6 +9,7 @@ class Exercise {
   final String tutorialLink;
   final ExerciseDifficulty difficulty;
   final ExerciseDetails details;
+  final ExerciseCategory? category;
 
   Exercise({
     required this.id,
@@ -16,6 +18,7 @@ class Exercise {
     required this.tutorialLink,
     required this.difficulty,
     required this.details,
+    this.category,
   });
 
   factory Exercise.fromJson(Map<String, dynamic> map) {
@@ -28,6 +31,7 @@ class Exercise {
       details: ExerciseDetails.fromString(
         "sets_reps: ${map['sets_reps']}; rest: ${map['rest_time']}",
       ),
+      category: ExerciseCategory.fromApiKey(map['category']),
     );
   }
 }

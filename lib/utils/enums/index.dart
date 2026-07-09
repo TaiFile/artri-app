@@ -6,3 +6,4 @@ export 'security_tokens.dart';
 export 'exercise_button_enums.dart';
 export 'training_type_enum.dart';
 export 'answer_type_enum.dart';
+export 'exercise_category.dart';
