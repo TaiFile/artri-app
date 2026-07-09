@@ -62,6 +62,11 @@ class PhysicalExercisesViewModel extends ChangeNotifier {
     context.go('$currentPath/${difficulty.toString()}');
   }
 
+  void loadPrebuiltRoutine(List<Exercise> exercises) {
+    _queuedExercises = _queueExercises(exercises);
+    notifyListeners();
+  }
+
   List<ExerciseQueued> _queueExercises(List<Exercise> exercises) {
     var queue = exercises
         .map(

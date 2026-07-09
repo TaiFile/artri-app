@@ -25,6 +25,11 @@ class GlobalProviders {
       ),
     ),
     ChangeNotifierProvider(
+      create: (context) => CustomExercisesViewModel(
+        Provider.of<PhysicalExercisesService>(context, listen: false),
+      ),
+    ),
+    ChangeNotifierProvider(
       create: (context) => RemedyViewModel(),
     ),
     ChangeNotifierProvider(create: (_) => DiaryViewModel()),
