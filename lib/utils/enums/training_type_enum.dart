@@ -6,7 +6,8 @@ enum TrainingType {
   superiorBoost,
   inferiorBoost,
   coreBoost,
-  stretching;
+  stretching,
+  custom;
 
   @override
   toString() {
@@ -15,6 +16,8 @@ enum TrainingType {
         return 'MÃOS';
       case TrainingType.feet:
         return 'PÉS';
+      case TrainingType.custom:
+        return 'PERSONALIZADO';
       case TrainingType.aerobic:
         return 'AERÓBICO';
       case TrainingType.mobility:

@@ -24,6 +24,23 @@ class PhysicalExercisesService {
     );
   }
 
+  Future<List<Exercise>> getPersonalizedExercises(
+    ExerciseDifficulty difficulty,
+  ) async {
+    final uri = Uri.parse('$_baseUrl/exercises/').replace(
+      queryParameters: {
+        'personalized': 'true',
+        'difficulty': difficulty.toString(),
+      },
+    );
+
+    final response = await http.get(uri);
+
+    return List<Exercise>.from(
+      jsonDecode(response.body).map((exercise) => Exercise.fromJson(exercise)),
+    );
+  }
+
   Future<List<Exercise>> getExercisesFromTraining(
     TrainingType type,
     ExerciseDifficulty difficulty,
