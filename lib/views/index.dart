@@ -17,6 +17,7 @@ export 'logged_settings/logged_settings_page.dart';
 export 'logged_page/logged_page.dart';
 export 'info/index.dart';
 export 'physical_exercise/index.dart';
+export 'custom_exercise/index.dart';
 export 'widgets/index.dart';
 export 'relaxation/index.dart';
 export 'evolution/evolution_page.dart';
