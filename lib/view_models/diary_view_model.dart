@@ -1,30 +1,44 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
-import 'dart:io';
+import 'package:http/http.dart' as http;
 import 'package:artriapp/utils/env_variables.dart' as env;
+import 'package:artriapp/services/index.dart';
+import 'package:artriapp/utils/index.dart';
 
 class DiaryViewModel extends ChangeNotifier {
+  final SecurityTokenService _securityTokenService;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  final HttpClient _httpClient = HttpClient();
-
-  DiaryViewModel() {
-    // opcional: configurar timeouts no HttpClient
-    _httpClient.connectionTimeout = const Duration(seconds: 15);
-  }
+  DiaryViewModel(this._securityTokenService);
 
   /// Método genérico privado para evitar repetição de código
   Future<bool> _enviarMetrica(String endpoint, Map<String, dynamic> data) async {
     _isLoading = true;
     notifyListeners();
-    
+
     try {
-      final uri = Uri.parse('${env.Environment.apiUrl}$endpoint');
-      final request = await _httpClient.postUrl(uri);
-      request.headers.set(HttpHeaders.contentTypeHeader, 'application/json');
-      request.write(jsonEncode(data));
-      final response = await request.close();
+      final baseUrl = env.Environment.apiUrl;
+      final uri = Uri.parse(
+        '${baseUrl.endsWith('/') ? baseUrl : '$baseUrl/'}$endpoint',
+      );
+
+      final accessToken =
+          await _securityTokenService.getToken(SecurityToken.accessToken);
+
+      final response = await http
+          .post(
+            uri,
+            headers: {
+              'Content-Type': 'application/json',
+              if (accessToken != null && accessToken.isNotEmpty)
+                'Authorization': 'Bearer $accessToken',
+            },
+            body: jsonEncode(data),
+          )
+          .timeout(const Duration(seconds: 15));
+
       return response.statusCode == 200 || response.statusCode == 201;
     } catch (e) {
       debugPrint('Erro ao comunicar com a API em $endpoint: $e');
@@ -54,11 +68,21 @@ class DiaryViewModel extends ChangeNotifier {
     });
   }
 
-  Future<bool> enviarRelatorioDor({required int nivel}) async {
-    return await _enviarMetrica('daily-pain-report/', {
-      'painLevel': nivel, // Exemplo de nome diferente baseado na sua classe DailyPainReport
-      'date': DateTime.now().toIso8601String().split('T')[0],
-    });
+  Future<bool> enviarRelatorioDor(Map<String, int> niveisPorLocal) async {
+    if (niveisPorLocal.isEmpty) return false;
+
+    final date = DateTime.now().toIso8601String().split('T')[0];
+
+    for (final entry in niveisPorLocal.entries) {
+      final sucesso = await _enviarMetrica('daily-pain-reports/', {
+        'pain_level': entry.value,
+        'pain_location': entry.key,
+        'date': date,
+      });
+      if (!sucesso) return false;
+    }
+
+    return true;
   }
 
   Future<bool> enviarRelatorioInchaco({required int nivel}) async {

@@ -32,7 +32,11 @@ class GlobalProviders {
     ChangeNotifierProvider(
       create: (context) => RemedyViewModel(),
     ),
-    ChangeNotifierProvider(create: (_) => DiaryViewModel()),
+    ChangeNotifierProvider(
+      create: (context) => DiaryViewModel(
+        Provider.of<SecurityTokenService>(context, listen: false),
+      ),
+    ),
   ];
 
   static List<SingleChildWidget> getProviders() {
