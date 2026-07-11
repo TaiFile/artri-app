@@ -1,9 +1,11 @@
 import 'package:artriapp/utils/enums/index.dart';
+import 'package:artriapp/view_models/diary_view_model.dart';
 import 'package:artriapp/views/user_diary/widgets/index.dart';
 import 'package:artriapp/views/widgets/index.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class UserLevelSelectionWithOptions extends StatefulWidget {
   final String title;
@@ -23,6 +25,48 @@ class UserLevelSelectionWithOptions extends StatefulWidget {
 class _UserLevelSelectionWithOptionsState
     extends State<UserLevelSelectionWithOptions> {
   Map<String, int?> selectedInfos = <String, int?>{};
+  bool _isSaving = false;
+
+  Future<void> onSalvarPressed() async {
+    if (_isSaving) return;
+
+    if (widget.title.toLowerCase() != 'dor') {
+      context.pop();
+      return;
+    }
+
+    final niveisPorLocal = <String, int>{
+      for (final entry in selectedInfos.entries)
+        if (entry.value != null && entry.value != -1) entry.key: entry.value!,
+    };
+
+    if (niveisPorLocal.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Selecione um local e o nível da dor.'),
+        ),
+      );
+      return;
+    }
+
+    setState(() => _isSaving = true);
+    final sucesso = await context
+        .read<DiaryViewModel>()
+        .enviarRelatorioDor(niveisPorLocal);
+    if (!mounted) return;
+    setState(() => _isSaving = false);
+
+    if (sucesso) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Guardado com sucesso!')),
+      );
+      context.pop();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erro ao comunicar com o servidor.')),
+      );
+    }
+  }
 
   void onCheckBoxChanged(List<String> options) {
     for (String option in options) {
@@ -114,8 +158,9 @@ class _UserLevelSelectionWithOptionsState
             ),
             Gap(32),
             ConfirmationButtons(
-              onButtonClicked: (action) =>
-                  action == ConfirmationAction.canceled ? context.pop() : null,
+              onButtonClicked: (action) => action == ConfirmationAction.canceled
+                  ? context.pop()
+                  : onSalvarPressed(),
             ),
           ],
         ),
