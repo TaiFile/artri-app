@@ -62,8 +62,8 @@ class DiaryViewModel extends ChangeNotifier {
   }
 
   Future<bool> enviarRelatorioFadiga({required int nivel}) async {
-    return await _enviarMetrica('daily-fatigue-report/', {
-      'level': nivel,
+    return await _enviarMetrica('daily-fatigue-reports/', {
+      'fatigue_level': nivel,
       'date': DateTime.now().toIso8601String().split('T')[0],
     });
   }
@@ -85,10 +85,20 @@ class DiaryViewModel extends ChangeNotifier {
     return true;
   }
 
-  Future<bool> enviarRelatorioInchaco({required int nivel}) async {
-    return await _enviarMetrica('daily-swelling-report/', {
-      'level': nivel,
-      'date': DateTime.now().toIso8601String().split('T')[0],
-    });
+  Future<bool> enviarRelatorioInchaco(Map<String, int> niveisPorLocal) async {
+    if (niveisPorLocal.isEmpty) return false;
+
+    final date = DateTime.now().toIso8601String().split('T')[0];
+
+    for (final entry in niveisPorLocal.entries) {
+      final sucesso = await _enviarMetrica('daily-swelling-reports/', {
+        'swelling_level': entry.value,
+        'swelling_location': entry.key,
+        'date': date,
+      });
+      if (!sucesso) return false;
+    }
+
+    return true;
   }
 }
