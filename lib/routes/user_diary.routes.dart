@@ -20,12 +20,7 @@ abstract class UserDiaryRoutes implements RoutesSession {
             GoRoute(
               path: 'fatigue-selection',
               pageBuilder: (context, state) => NoTransitionPage(
-                child: const UserLevelSelection(
-                  title: 'Fadiga',
-                  tooltipMessage:
-                      'É um cansaço intenso e constante e falta de energia, que não melhora mesmo após descanso e pode atrapalhar nas atividades do dia a dia',
-                  description: 'De 0 a 10, como esta seu nível de fadiga hoje?',
-                ),
+                child: const FatigueSelectionPage(),
               ),
             ),
             GoRoute(

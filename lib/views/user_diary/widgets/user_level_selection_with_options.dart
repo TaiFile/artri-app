@@ -30,6 +30,11 @@ class _UserLevelSelectionWithOptionsState
   Future<void> onSalvarPressed() async {
     if (_isSaving) return;
 
+    if (widget.title.toLowerCase() == 'inchaço') {
+      await _salvarInchaco();
+      return;
+    }
+
     if (widget.title.toLowerCase() != 'dor') {
       context.pop();
       return;
@@ -53,6 +58,40 @@ class _UserLevelSelectionWithOptionsState
     final sucesso = await context
         .read<DiaryViewModel>()
         .enviarRelatorioDor(niveisPorLocal);
+    if (!mounted) return;
+    setState(() => _isSaving = false);
+
+    if (sucesso) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Guardado com sucesso!')),
+      );
+      context.pop();
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Erro ao comunicar com o servidor.')),
+      );
+    }
+  }
+
+  Future<void> _salvarInchaco() async {
+    final niveisPorLocal = <String, int>{
+      for (final entry in selectedInfos.entries)
+        if (entry.value != null && entry.value != -1) entry.key: entry.value!,
+    };
+
+    if (niveisPorLocal.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Selecione um local e o nível do inchaço.'),
+        ),
+      );
+      return;
+    }
+
+    setState(() => _isSaving = true);
+    final sucesso = await context
+        .read<DiaryViewModel>()
+        .enviarRelatorioInchaco(niveisPorLocal);
     if (!mounted) return;
     setState(() => _isSaving = false);
 
