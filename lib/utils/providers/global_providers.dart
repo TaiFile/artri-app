@@ -10,6 +10,11 @@ class GlobalProviders {
     Provider(create: (context) => AuthService()),
     Provider(create: (context) => SecurityTokenService()),
     Provider(create: (context) => PhysicalExercisesService()),
+    Provider(
+      create: (context) => ReportsService(
+        Provider.of<SecurityTokenService>(context, listen: false),
+      ),
+    ),
   ];
 
   final _viewModelProviders = <SingleChildWidget>[
@@ -35,6 +40,11 @@ class GlobalProviders {
     ChangeNotifierProvider(
       create: (context) => DiaryViewModel(
         Provider.of<SecurityTokenService>(context, listen: false),
+      ),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => EvolutionViewModel(
+        Provider.of<ReportsService>(context, listen: false),
       ),
     ),
   ];
