@@ -34,10 +34,7 @@ abstract class UserDiaryRoutes implements RoutesSession {
             GoRoute(
               path: 'sleep-selection',
               pageBuilder: (context, state) => NoTransitionPage(
-                child: const UserLevelSelection(
-                  title: 'Sono',
-                  description: 'De 0 a 10, como esta seu nível de sono hoje?',
-                ),
+                child: const SleepSelectionPage(),
               ),
             ),
             GoRoute(

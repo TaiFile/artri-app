@@ -54,9 +54,8 @@ class DiaryViewModel extends ChangeNotifier {
   // ==========================================================
 
   Future<bool> enviarRelatorioSono({required int nivel}) async {
-    // Substitua 'daily-sleep-report/' pelo endpoint exato do seu urls.py
-    return await _enviarMetrica('daily-sleep-report/', {
-      'level': nivel, // Confirme se o Serializer espera 'level' ou 'sleep_level'
+    return await _enviarMetrica('daily-sleep-reports/', {
+      'sleep_level': nivel,
       'date': DateTime.now().toIso8601String().split('T')[0], // Envia "YYYY-MM-DD"
     });
   }
