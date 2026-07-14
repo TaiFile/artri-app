@@ -15,6 +15,11 @@ class GlobalProviders {
         Provider.of<SecurityTokenService>(context, listen: false),
       ),
     ),
+    Provider(
+      create: (context) => RemedyService(
+        Provider.of<SecurityTokenService>(context, listen: false),
+      ),
+    ),
   ];
 
   final _viewModelProviders = <SingleChildWidget>[
@@ -35,7 +40,9 @@ class GlobalProviders {
       ),
     ),
     ChangeNotifierProvider(
-      create: (context) => RemedyViewModel(),
+      create: (context) => RemedyViewModel(
+        Provider.of<RemedyService>(context, listen: false),
+      ),
     ),
     ChangeNotifierProvider(
       create: (context) => DiaryViewModel(
