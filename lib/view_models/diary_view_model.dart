@@ -13,7 +13,6 @@ class DiaryViewModel extends ChangeNotifier {
 
   DiaryViewModel(this._securityTokenService);
 
-  /// Método genérico privado para evitar repetição de código
   Future<bool> _enviarMetrica(String endpoint, Map<String, dynamic> data) async {
     _isLoading = true;
     notifyListeners();
@@ -49,15 +48,10 @@ class DiaryViewModel extends ChangeNotifier {
     }
   }
 
-  // ==========================================================
-  // MÉTODOS PÚBLICOS PARA AS PÁGINAS VISUAIS
-  // ==========================================================
-
   Future<bool> enviarRelatorioSono({required int nivel}) async {
-    // Substitua 'daily-sleep-report/' pelo endpoint exato do seu urls.py
     return await _enviarMetrica('daily-sleep-report/', {
-      'level': nivel, // Confirme se o Serializer espera 'level' ou 'sleep_level'
-      'date': DateTime.now().toIso8601String().split('T')[0], // Envia "YYYY-MM-DD"
+      'level': nivel,
+      'date': DateTime.now().toIso8601String().split('T')[0],
     });
   }
 
