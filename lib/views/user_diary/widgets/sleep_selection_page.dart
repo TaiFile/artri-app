@@ -7,9 +7,6 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-/// Tela de registro do nível de sono do diário. Reaproveita o
-/// [UserLevelSelection] e adiciona a persistência via
-/// [DiaryViewModel.enviarRelatorioSono].
 class SleepSelectionPage extends StatefulWidget {
   const SleepSelectionPage({super.key});
 
