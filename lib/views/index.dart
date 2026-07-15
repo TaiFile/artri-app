@@ -8,7 +8,6 @@ export 'user_diary/user_diary_page.dart';
 export 'user_diary/widgets/index.dart';
 export 'info/info_page.dart';
 export 'login_page/login_page.dart';
-export 'pain/pain_page.dart';
 export 'sign_up_page/send_password.dart';
 export 'sign_up_page/sign_up_page.dart';
 export 'sleep/sleep_page.dart';

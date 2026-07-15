@@ -4,7 +4,6 @@ import 'package:artriapp/utils/index.dart';
 import 'package:artriapp/utils/providers/index.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 class App extends StatelessWidget {
@@ -19,8 +18,6 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData(textTheme: GoogleFonts.jetBrainsMonoTextTheme());
-
     return MultiProvider(
       providers: GlobalProviders.getProviders(),
       child: MaterialApp.router(
