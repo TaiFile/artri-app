@@ -62,7 +62,7 @@ class _FatigueSelectionPageState extends State<FatigueSelectionPage> {
               'É um cansaço intenso e constante e falta de energia, que não '
               'melhora mesmo após descanso e pode atrapalhar nas atividades do '
               'dia a dia',
-          description: 'De 0 a 10, como esta seu nível de fadiga hoje?',
+          description: 'De 0 a 10, como está seu nível de fadiga hoje?',
           showButtons: false,
           selectedLevel: _nivel,
           onLevelSelected: (value) => _nivel = value,

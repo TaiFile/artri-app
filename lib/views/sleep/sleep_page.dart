@@ -34,7 +34,8 @@ class _FatgiuePageState extends State<SleepPage> {
                   return AlertDialog(
                     title: const Text('O que é Fadiga e Sono?'),
                     content: const Text(
-                        'A fadiga é a sensação de cansaço extremo e falta de energia. Aqui avaliamos como isso e a qualidade do seu sono afetam o seu dia.'),
+                      'A fadiga é a sensação de cansaço extremo e falta de energia. Aqui avaliamos como isso e a qualidade do seu sono afetam o seu dia.',
+                    ),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),

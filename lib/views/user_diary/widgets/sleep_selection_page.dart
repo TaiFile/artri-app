@@ -55,7 +55,7 @@ class _SleepSelectionPageState extends State<SleepSelectionPage> {
       children: [
         UserLevelSelection(
           title: 'Sono',
-          description: 'De 0 a 10, como esta seu nível de sono hoje?',
+          description: 'De 0 a 10, como está seu nível de sono hoje?',
           showButtons: false,
           selectedLevel: _nivel,
           onLevelSelected: (value) => _nivel = value,
