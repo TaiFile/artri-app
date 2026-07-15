@@ -8,6 +8,8 @@ class RefreshTokenPolicy implements RetryPolicy {
   final AuthService _authService;
   final SecurityTokenService _securityTokenService;
 
+  Future<bool>? _refreshInFlight;
+
   RefreshTokenPolicy(this._authService, this._securityTokenService);
 
   @override
@@ -33,25 +35,41 @@ class RefreshTokenPolicy implements RetryPolicy {
 
   @override
   FutureOr<bool> shouldAttemptRetryOnResponse(BaseResponse response) async {
-    if (response.statusCode == 401) {
-      var refreshToken =
-          await _securityTokenService.getToken(SecurityToken.refreshToken);
+    if (response.statusCode != 401) return false;
 
-      if (refreshToken == null) return false;
+    _refreshInFlight ??= _refreshTokens();
+    try {
+      return await _refreshInFlight!;
+    } finally {
+      _refreshInFlight = null;
+    }
+  }
 
-      var response = await _authService.refreshAuthToken(refreshToken);
+  Future<bool> _refreshTokens() async {
+    final refreshToken =
+        await _securityTokenService.getToken(SecurityToken.refreshToken);
+
+    if (refreshToken == null) return false;
+
+    try {
+      final response = await _authService.refreshAuthToken(refreshToken);
 
       await _securityTokenService.saveToken(
         response.accessToken,
         SecurityToken.accessToken,
       );
-      await _securityTokenService.saveToken(
-        response.refreshToken,
-        SecurityToken.refreshToken,
-      );
+
+      final newRefreshToken = response.refreshToken;
+      if (newRefreshToken != null) {
+        await _securityTokenService.saveToken(
+          newRefreshToken,
+          SecurityToken.refreshToken,
+        );
+      }
 
       return true;
+    } catch (_) {
+      return false;
     }
-    return false;
   }
 }

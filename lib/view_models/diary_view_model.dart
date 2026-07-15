@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:artriapp/utils/env_variables.dart' as env;
-import 'package:artriapp/services/index.dart';
-import 'package:artriapp/utils/index.dart';
 
 class DiaryViewModel extends ChangeNotifier {
-  final SecurityTokenService _securityTokenService;
+  final http.Client _client;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  DiaryViewModel(this._securityTokenService);
+  DiaryViewModel(this._client);
 
   /// Método genérico privado para evitar repetição de código
   Future<bool> _enviarMetrica(String endpoint, Map<String, dynamic> data) async {
@@ -24,17 +22,10 @@ class DiaryViewModel extends ChangeNotifier {
         '${baseUrl.endsWith('/') ? baseUrl : '$baseUrl/'}$endpoint',
       );
 
-      final accessToken =
-          await _securityTokenService.getToken(SecurityToken.accessToken);
-
-      final response = await http
+      final response = await _client
           .post(
             uri,
-            headers: {
-              'Content-Type': 'application/json',
-              if (accessToken != null && accessToken.isNotEmpty)
-                'Authorization': 'Bearer $accessToken',
-            },
+            headers: {'Content-Type': 'application/json'},
             body: jsonEncode(data),
           )
           .timeout(const Duration(seconds: 15));

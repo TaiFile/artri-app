@@ -20,13 +20,16 @@ class LoginViewModel extends ChangeNotifier {
     try {
       var response = await _authService.login(email, password);
 
-      if (response.refreshToken != '' && response.accessToken != '') {
+      final refreshToken = response.refreshToken;
+      if (refreshToken != null &&
+          refreshToken.isNotEmpty &&
+          response.accessToken != '') {
         await _securityTokenService.saveToken(
           response.accessToken,
           SecurityToken.accessToken,
         );
         await _securityTokenService.saveToken(
-          response.refreshToken,
+          refreshToken,
           SecurityToken.refreshToken,
         );
 
