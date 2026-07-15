@@ -147,7 +147,7 @@ class _RemedyPageState extends State<RemedyPage> {
                             ),
                           ),
                           subtitle: Text(
-                            '${remedy.quantity} un. às ${remedy.hour}',
+                            '${remedy.quantity} un. às ${remedy.hourHm}',
                           ),
                           trailing: isConfirming
                               ? const SizedBox(

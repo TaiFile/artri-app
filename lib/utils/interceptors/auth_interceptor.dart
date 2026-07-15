@@ -10,10 +10,13 @@ class AuthInterceptor implements InterceptorContract {
   AuthInterceptor(this._securityTokenService);
 
   @override
-  FutureOr<BaseRequest> interceptRequest({required BaseRequest request}) {
-    var accessToken = _securityTokenService.getToken(SecurityToken.accessToken);
+  Future<BaseRequest> interceptRequest({required BaseRequest request}) async {
+    final accessToken =
+        await _securityTokenService.getToken(SecurityToken.accessToken);
 
-    request.headers['Authorization'] = 'Bearer $accessToken';
+    if (accessToken != null && accessToken.isNotEmpty) {
+      request.headers['Authorization'] = 'Bearer $accessToken';
+    }
 
     return request;
   }
@@ -25,7 +28,7 @@ class AuthInterceptor implements InterceptorContract {
 
   @override
   FutureOr<bool> shouldInterceptRequest() {
-    return _securityTokenService.userLoggedIn();
+    return true;
   }
 
   @override

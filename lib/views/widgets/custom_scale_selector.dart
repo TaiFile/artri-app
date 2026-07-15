@@ -11,7 +11,7 @@ class CustomScaleSelectorWidget extends StatefulWidget {
   });
 
   @override
-  _CustomScaleSelectorWidgetState createState() =>
+  State<CustomScaleSelectorWidget> createState() =>
       _CustomScaleSelectorWidgetState();
 }
 

@@ -15,6 +15,11 @@ class Remedy {
     required this.user,
   });
 
+  String get hourHm {
+    final parts = hour.split(':');
+    return parts.length >= 2 ? '${parts[0]}:${parts[1]}' : hour;
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id': id,

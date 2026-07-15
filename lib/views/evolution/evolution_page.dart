@@ -134,6 +134,25 @@ class _EvolutionPageState extends State<EvolutionPage> {
 
   LineChartData _mainData(EvolutionViewModel viewModel) {
     return LineChartData(
+      lineTouchData: LineTouchData(
+        touchTooltipData: LineTouchTooltipData(
+          getTooltipItems: (touchedSpots) {
+            final visibleMetrics = EvolutionMetric.values
+                .where((metric) => _visible.contains(metric))
+                .toList();
+            return touchedSpots.map((spot) {
+              final metric = visibleMetrics[spot.barIndex];
+              return LineTooltipItem(
+                '${metric.label}: ${spot.y.toStringAsFixed(1)}',
+                GoogleFonts.montserrat(
+                  color: metric.color,
+                  fontWeight: FontWeight.bold,
+                ),
+              );
+            }).toList();
+          },
+        ),
+      ),
       gridData: FlGridData(
         show: true,
         drawVerticalLine: false,
@@ -191,8 +210,6 @@ class _EvolutionPageState extends State<EvolutionPage> {
       isStrokeCapRound: true,
       dotData: const FlDotData(show: true),
       belowBarData: BarAreaData(
-        // Só preenche a área quando uma única métrica está visível,
-        // para não sobrepor cores com várias linhas
         show: _visible.length == 1,
         color: metric.color.withValues(alpha: 0.15),
       ),

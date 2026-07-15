@@ -1,6 +1,9 @@
 import 'package:artriapp/services/index.dart';
+import 'package:artriapp/utils/interceptors/index.dart';
 import 'package:artriapp/view_models/index.dart';
 import 'package:artriapp/view_models/remedy_view_model.dart';
+import 'package:http/http.dart' as http;
+import 'package:http_interceptor/http_interceptor.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 import 'package:artriapp/view_models/diary_view_model.dart';
@@ -9,15 +12,28 @@ class GlobalProviders {
   final _serviceProviders = <SingleChildWidget>[
     Provider(create: (context) => AuthService()),
     Provider(create: (context) => SecurityTokenService()),
-    Provider(create: (context) => PhysicalExercisesService()),
+    Provider(create: (context) => PhysicalExercisesService()), 
+    Provider<http.Client>(
+      create: (context) => InterceptedClient.build(
+        interceptors: [
+          AuthInterceptor(
+            Provider.of<SecurityTokenService>(context, listen: false),
+          ),
+        ],
+        retryPolicy: RefreshTokenPolicy(
+          Provider.of<AuthService>(context, listen: false),
+          Provider.of<SecurityTokenService>(context, listen: false),
+        ),
+      ),
+    ),
     Provider(
       create: (context) => ReportsService(
-        Provider.of<SecurityTokenService>(context, listen: false),
+        Provider.of<http.Client>(context, listen: false),
       ),
     ),
     Provider(
       create: (context) => RemedyService(
-        Provider.of<SecurityTokenService>(context, listen: false),
+        Provider.of<http.Client>(context, listen: false),
       ),
     ),
   ];
@@ -46,7 +62,7 @@ class GlobalProviders {
     ),
     ChangeNotifierProvider(
       create: (context) => DiaryViewModel(
-        Provider.of<SecurityTokenService>(context, listen: false),
+        Provider.of<http.Client>(context, listen: false),
       ),
     ),
     ChangeNotifierProvider(

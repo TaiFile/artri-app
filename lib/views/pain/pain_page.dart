@@ -30,7 +30,8 @@ class _PainPageState extends State<PainPage> {
                   return AlertDialog(
                     title: const Text('O que é Dor?'),
                     content: const Text(
-                        'A dor é avaliada em uma escala de intensidade para acompanharmos a evolução do seu tratamento e alívio dos sintomas.'),
+                      'A dor é avaliada em uma escala de intensidade para acompanharmos a evolução do seu tratamento e alívio dos sintomas.',
+                    ),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),
