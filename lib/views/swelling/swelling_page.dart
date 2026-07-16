@@ -30,8 +30,7 @@ class _SwellingPageState extends State<SwellingPage> {
                   return AlertDialog(
                     title: const Text('O que é Inchaço?'),
                     content: const Text(
-                      'O inchaço (edema) é o acúmulo de líquidos nas articulações, comum em crises de artrite. Indique a área afetada e a intensidade.',
-                    ),
+                        'O inchaço (edema) é o acúmulo de líquidos nas articulações, comum em crises de artrite. Indique a área afetada e a intensidade.',),
                     actions: [
                       TextButton(
                         onPressed: () => Navigator.pop(context),

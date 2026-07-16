@@ -30,16 +30,19 @@ class _UserLevelSelectionWithOptionsState
   Future<void> onSalvarPressed() async {
     if (_isSaving) return;
 
-    if (widget.title.toLowerCase() == 'inchaço') {
-      await _salvarInchaco();
-      return;
+    switch (widget.title.toLowerCase()) {
+      case 'inchaço':
+        await _salvarInchaco();
+        break;
+      case 'dor':
+        await _salvarDor();
+        break;
+      default:
+        context.pop();
     }
+  }
 
-    if (widget.title.toLowerCase() != 'dor') {
-      context.pop();
-      return;
-    }
-
+  Future<void> _salvarDor() async {
     final niveisPorLocal = <String, int>{
       for (final entry in selectedInfos.entries)
         if (entry.value != null && entry.value != -1) entry.key: entry.value!,
