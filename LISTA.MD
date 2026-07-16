@@ -1,14 +1,19 @@
 # Análise do Aplicativo ArtriApp
 
-**Integrantes:** 
-- João Paulo Morais Rangel - 820827
-- Vitor Taichi Taira       - 823838
+**Integrantes:**
 
+- João Paulo Morais Rangel - 820827
+- Vitor Taichi Taira - 823838
 
 **Versão analisada:** commit `d195993`
 
 **Back-end:** `artri-app-api` rodando localmente via Docker (`docker-compose-local.yml`)
 
+## Gravação de Tela da Análise
+
+▶ [Assistir à gravação no Google Drive](https://drive.google.com/file/d/1MCBQVGSh6THU_sY8JqEW15xkRVtaxlcu/view)
+
+---
 
 ## Bugs Identificados
 
