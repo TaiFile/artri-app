@@ -1,3 +1,7 @@
+Integrantes: 
+ - João Paulo Morais Rangel - 820827
+ - Vitor Taichi Taira - 823838
+
 # Artriapp
 
 Um app para artrite reumatoide.
